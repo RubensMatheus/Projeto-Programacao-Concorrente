@@ -1,0 +1,34 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 13280.600000000002,
+    "medianResTime" : 13255.0,
+    "minResTime" : 11794.0,
+    "maxResTime" : 15215.0,
+    "pct1ResTime" : 14708.1,
+    "pct2ResTime" : 15000.35,
+    "pct3ResTime" : 15215.0,
+    "throughput" : 0.37521481047899924,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  },
+  "ATOMIC_VIRTUAL_PLATFORM" : {
+    "transaction" : "ATOMIC_VIRTUAL_PLATFORM",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 13280.600000000002,
+    "medianResTime" : 13255.0,
+    "minResTime" : 11794.0,
+    "maxResTime" : 15215.0,
+    "pct1ResTime" : 14708.1,
+    "pct2ResTime" : 15000.35,
+    "pct3ResTime" : 15215.0,
+    "throughput" : 0.37521481047899924,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  }
+}

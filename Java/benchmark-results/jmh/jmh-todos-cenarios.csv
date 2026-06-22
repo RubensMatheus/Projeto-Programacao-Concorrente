@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99,9%)","Unit","Param: scenario"
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"6786,915289","128,470881","ms/op",SERIAL
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"5598,189067","97,506036","ms/op",PLATFORM_PLATFORM
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"5679,785117","140,867117","ms/op",VIRTUAL_VIRTUAL
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"5577,040701","69,102499","ms/op",PLATFORM_VIRTUAL
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"5592,852110","67,482190","ms/op",VIRTUAL_PLATFORM
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"8029,682657","179,493439","ms/op",MUTEX_VIRTUAL_PLATFORM
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"10495,708483","311,391155","ms/op",SEMAPHORE_VIRTUAL_PLATFORM
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"8432,624978","100,785301","ms/op",VOLATILE_VIRTUAL_PLATFORM
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"5617,514785","80,997453","ms/op",ATOMIC_VIRTUAL_PLATFORM
+"br.ufrn.imd.benchmark.JMH.IDWFullProcessBenchmark.fullProcessBenchmark","avgt",1,15,"6515,399807","108,649251","ms/op",PRODUCER_CONSUMER

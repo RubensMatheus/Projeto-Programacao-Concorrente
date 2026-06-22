@@ -1,0 +1,34 @@
+{
+  "SEMAPHORE_VIRTUAL_PLATFORM" : {
+    "transaction" : "SEMAPHORE_VIRTUAL_PLATFORM",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 20362.399999999998,
+    "medianResTime" : 20459.0,
+    "minResTime" : 16875.0,
+    "maxResTime" : 26439.0,
+    "pct1ResTime" : 24414.0,
+    "pct2ResTime" : 25141.85,
+    "pct3ResTime" : 26439.0,
+    "throughput" : 0.23231933686768486,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 20362.399999999998,
+    "medianResTime" : 20459.0,
+    "minResTime" : 16875.0,
+    "maxResTime" : 26439.0,
+    "pct1ResTime" : 24414.0,
+    "pct2ResTime" : 25141.85,
+    "pct3ResTime" : 26439.0,
+    "throughput" : 0.23231933686768486,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  }
+}

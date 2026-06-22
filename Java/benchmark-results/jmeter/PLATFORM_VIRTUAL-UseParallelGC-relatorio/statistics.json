@@ -1,0 +1,34 @@
+{
+  "PLATFORM_VIRTUAL" : {
+    "transaction" : "PLATFORM_VIRTUAL",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 16177.640000000003,
+    "medianResTime" : 16484.5,
+    "minResTime" : 9795.0,
+    "maxResTime" : 21793.0,
+    "pct1ResTime" : 18210.7,
+    "pct2ResTime" : 19272.349999999995,
+    "pct3ResTime" : 21793.0,
+    "throughput" : 0.303162592161428,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 16177.640000000003,
+    "medianResTime" : 16484.5,
+    "minResTime" : 9795.0,
+    "maxResTime" : 21793.0,
+    "pct1ResTime" : 18210.7,
+    "pct2ResTime" : 19272.349999999995,
+    "pct3ResTime" : 21793.0,
+    "throughput" : 0.303162592161428,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  }
+}

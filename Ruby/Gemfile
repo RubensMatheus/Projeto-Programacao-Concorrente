@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+ruby '>= 3.2'
+
+# Fiber-based cooperative scheduler — equivalente conceitual de Virtual Threads (Loom).
+gem 'async', '~> 2.10'
+
+# Primitivas concorrentes ausentes na stdlib do MRI:
+#   - Concurrent::Semaphore     -> cenário SEMAPHORE
+#   - Concurrent::AtomicFixnum / Concurrent::AtomicReference -> cenário ATOMIC
+#   - Concurrent::FixedThreadPool -> equivalente a Executors.newFixedThreadPool
+gem 'concurrent-ruby', '~> 1.3'
+
+# Microbenchmark (equivalente JMH) — exige warmup explícito (x.warmup).
+gem 'benchmark-ips', '~> 2.14'
+
+# Profiler de amostragem in-process — substituto do rbspy.
+# Motivo da troca: rbspy 0.48 falha sistematicamente no macOS Tahoe / Apple
+# Silicon (ptrace bloqueado/instável → "Dropped 21/28 stack traces").
+# stackprof não depende de ptrace, roda dentro do processo Ruby e exporta
+# flamegraphs compatíveis. Trade-off: compete pelo GVL com a aplicação
+# (custo ~3% no modo :wall/sample_rate baixo) — aceitável para o
+# objetivo pedagógico aqui, e documentado no relatório.
+gem 'stackprof', '~> 0.2'

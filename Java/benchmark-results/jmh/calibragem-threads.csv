@@ -1,0 +1,8 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99,9%)","Unit","Param: computeThreads"
+"br.ufrn.imd.benchmark.JMH.IDWCalibrationBenchmark.platformPlatform","avgt",1,10,"5816,445498","149,396566","ms/op",4
+"br.ufrn.imd.benchmark.JMH.IDWCalibrationBenchmark.platformPlatform","avgt",1,10,"5759,720396","295,697041","ms/op",8
+"br.ufrn.imd.benchmark.JMH.IDWCalibrationBenchmark.platformPlatform","avgt",1,10,"5607,259629","148,508126","ms/op",10
+"br.ufrn.imd.benchmark.JMH.IDWCalibrationBenchmark.platformPlatform","avgt",1,10,"5682,660558","159,335597","ms/op",12
+"br.ufrn.imd.benchmark.JMH.IDWCalibrationBenchmark.platformPlatform","avgt",1,10,"5729,799344","235,120018","ms/op",14
+"br.ufrn.imd.benchmark.JMH.IDWCalibrationBenchmark.platformPlatform","avgt",1,10,"5651,827277","121,618864","ms/op",16
+"br.ufrn.imd.benchmark.JMH.IDWCalibrationBenchmark.platformPlatform","avgt",1,10,"5641,346950","190,203695","ms/op",20

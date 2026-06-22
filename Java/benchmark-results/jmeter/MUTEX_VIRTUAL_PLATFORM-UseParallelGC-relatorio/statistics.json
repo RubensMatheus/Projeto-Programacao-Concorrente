@@ -1,0 +1,34 @@
+{
+  "MUTEX_VIRTUAL_PLATFORM" : {
+    "transaction" : "MUTEX_VIRTUAL_PLATFORM",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 20684.980000000007,
+    "medianResTime" : 20747.5,
+    "minResTime" : 16040.0,
+    "maxResTime" : 24075.0,
+    "pct1ResTime" : 23563.8,
+    "pct2ResTime" : 23927.7,
+    "pct3ResTime" : 24075.0,
+    "throughput" : 0.23469440441600992,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 20684.980000000007,
+    "medianResTime" : 20747.5,
+    "minResTime" : 16040.0,
+    "maxResTime" : 24075.0,
+    "pct1ResTime" : 23563.8,
+    "pct2ResTime" : 23927.7,
+    "pct3ResTime" : 24075.0,
+    "throughput" : 0.23469440441600992,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  }
+}
