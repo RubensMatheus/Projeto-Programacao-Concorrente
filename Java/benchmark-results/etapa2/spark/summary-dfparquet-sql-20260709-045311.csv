@@ -1,0 +1,7 @@
+gc,approach,n,mean_s,stddev_s,min_s,median_s,max_s,mean_wall_over_exec
+g1,dataframe_parquet,5,0.729,0.089,0.603,0.716,0.830,0.121
+g1,sql_tempview_csv,5,4.079,0.120,3.956,4.072,4.254,0.104
+parallel,dataframe_parquet,5,1.113,0.130,0.942,1.148,1.263,0.113
+parallel,sql_tempview_csv,5,4.123,0.156,3.989,4.090,4.382,0.105
+zgc,dataframe_parquet,5,0.876,0.291,0.675,0.726,1.369,0.122
+zgc,sql_tempview_csv,5,11.166,0.376,10.843,10.932,11.627,0.103

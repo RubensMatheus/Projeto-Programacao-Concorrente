@@ -1,0 +1,56 @@
+== Physical Plan ==
+AdaptiveSparkPlan (9)
++- HashAggregate (8)
+   +- Exchange (7)
+      +- HashAggregate (6)
+         +- Project (5)
+            +- BroadcastNestedLoopJoin Cross BuildRight (4)
+               :- Scan csv  (1)
+               +- BroadcastExchange (3)
+                  +- LocalTableScan (2)
+
+
+(1) Scan csv 
+Output [3]: [latitude#50, longitude#51, valor#52]
+Batched: false
+Location: InMemoryFileIndex [file:/Users/rubensmatheus/Documents/Graduacao/Concorrente/Programacao-Concorrente-Projeto/datasets/sensores.csv]
+ReadSchema: struct<latitude:double,longitude:double,valor:double>
+
+(2) LocalTableScan
+Output [3]: [query_id#53, query_lon#54, query_lat#55]
+Arguments: [query_id#53, query_lon#54, query_lat#55]
+
+(3) BroadcastExchange
+Input [3]: [query_id#53, query_lon#54, query_lat#55]
+Arguments: IdentityBroadcastMode, [plan_id=75]
+
+(4) BroadcastNestedLoopJoin
+Join type: Cross
+Join condition: NOT (haversine_weight(latitude#50, longitude#51, query_lon#54, query_lat#55) = 0.0)
+
+(5) Project
+Output [3]: [valor#52, query_id#53, haversine_weight(latitude#50, longitude#51, query_lon#54, query_lat#55) AS w#57]
+Input [6]: [latitude#50, longitude#51, valor#52, query_id#53, query_lon#54, query_lat#55]
+
+(6) HashAggregate
+Input [3]: [valor#52, query_id#53, w#57]
+Keys [1]: [query_id#53]
+Functions [2]: [partial_sum((w#57 * valor#52)), partial_sum(w#57)]
+Aggregate Attributes [2]: [sum#70, sum#71]
+Results [3]: [query_id#53, sum#72, sum#73]
+
+(7) Exchange
+Input [3]: [query_id#53, sum#72, sum#73]
+Arguments: hashpartitioning(query_id#53, 16), ENSURE_REQUIREMENTS, [plan_id=80]
+
+(8) HashAggregate
+Input [3]: [query_id#53, sum#72, sum#73]
+Keys [1]: [query_id#53]
+Functions [2]: [sum((w#57 * valor#52)), sum(w#57)]
+Aggregate Attributes [2]: [sum((w#57 * valor#52))#67, sum(w#57)#68]
+Results [2]: [query_id#53, (sum((w#57 * valor#52))#67 / sum(w#57)#68) AS idw#69]
+
+(9) AdaptiveSparkPlan
+Output [2]: [query_id#53, idw#69]
+Arguments: isFinalPlan=false
+

@@ -1,0 +1,57 @@
+== Physical Plan ==
+AdaptiveSparkPlan (9)
++- HashAggregate (8)
+   +- Exchange (7)
+      +- HashAggregate (6)
+         +- Project (5)
+            +- Project (4)
+               +- Project (3)
+                  +- Filter (2)
+                     +- Scan csv  (1)
+
+
+(1) Scan csv 
+Output [3]: [latitude#0, longitude#1, valor#2]
+Batched: false
+Location: InMemoryFileIndex [file:/Users/rubensmatheus/Documents/Graduacao/Concorrente/Programacao-Concorrente-Projeto/datasets/sensores.csv]
+PushedFilters: [IsNotNull(latitude), IsNotNull(longitude)]
+ReadSchema: struct<latitude:double,longitude:double,valor:double>
+
+(2) Filter
+Input [3]: [latitude#0, longitude#1, valor#2]
+Condition : ((isnotnull(latitude#0) AND isnotnull(longitude#1)) AND NOT ((12756.2 * ATAN2(SQRT((POWER(SIN((((latitude#0 - -5.7945675) * 0.017453292519943295) / 2.0)), 2.0) + ((COS((latitude#0 * 0.017453292519943295)) * 0.9948902860108326) * POWER(SIN((((longitude#1 - -35.2110235) * 0.017453292519943295) / 2.0)), 2.0)))), SQRT((1.0 - (POWER(SIN((((latitude#0 - -5.7945675) * 0.017453292519943295) / 2.0)), 2.0) + ((COS((latitude#0 * 0.017453292519943295)) * 0.9948902860108326) * POWER(SIN((((longitude#1 - -35.2110235) * 0.017453292519943295) / 2.0)), 2.0))))))) = 0.0))
+
+(3) Project
+Output [2]: [valor#2, (POWER(SIN((((latitude#0 - -5.7945675) * 0.017453292519943295) / 2.0)), 2.0) + ((COS((latitude#0 * 0.017453292519943295)) * 0.9948902860108326) * POWER(SIN((((longitude#1 - -35.2110235) * 0.017453292519943295) / 2.0)), 2.0))) AS a#6]
+Input [3]: [latitude#0, longitude#1, valor#2]
+
+(4) Project
+Output [2]: [valor#2, (12756.2 * ATAN2(SQRT(a#6), SQRT((1.0 - a#6)))) AS d#7]
+Input [2]: [valor#2, a#6]
+
+(5) Project
+Output [2]: [valor#2, (1.0 / (d#7 * d#7)) AS w#8]
+Input [2]: [valor#2, d#7]
+
+(6) HashAggregate
+Input [2]: [valor#2, w#8]
+Keys: []
+Functions [2]: [partial_sum((w#8 * valor#2)), partial_sum(w#8)]
+Aggregate Attributes [2]: [sum#21, sum#22]
+Results [2]: [sum#23, sum#24]
+
+(7) Exchange
+Input [2]: [sum#23, sum#24]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=23]
+
+(8) HashAggregate
+Input [2]: [sum#23, sum#24]
+Keys: []
+Functions [2]: [sum((w#8 * valor#2)), sum(w#8)]
+Aggregate Attributes [2]: [sum((w#8 * valor#2))#19, sum(w#8)#20]
+Results [2]: [sum((w#8 * valor#2))#19 AS num#9, sum(w#8)#20 AS den#10]
+
+(9) AdaptiveSparkPlan
+Output [2]: [num#9, den#10]
+Arguments: isFinalPlan=false
+

@@ -1,0 +1,34 @@
+{
+  "FORKJOIN" : {
+    "transaction" : "FORKJOIN",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 12313.740000000002,
+    "medianResTime" : 12201.0,
+    "minResTime" : 10324.0,
+    "maxResTime" : 15220.0,
+    "pct1ResTime" : 13699.6,
+    "pct2ResTime" : 14323.849999999995,
+    "pct3ResTime" : 15220.0,
+    "throughput" : 0.4031900395932619,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 50,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 12313.740000000002,
+    "medianResTime" : 12201.0,
+    "minResTime" : 10324.0,
+    "maxResTime" : 15220.0,
+    "pct1ResTime" : 13699.6,
+    "pct2ResTime" : 14323.849999999995,
+    "pct3ResTime" : 15220.0,
+    "throughput" : 0.4031900395932619,
+    "receivedKBytesPerSec" : 0.0,
+    "sentKBytesPerSec" : 0.0
+  }
+}

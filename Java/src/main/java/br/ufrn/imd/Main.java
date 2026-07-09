@@ -10,7 +10,6 @@ import java.nio.file.Path;
 
 public class Main {
 
-    // Se quiser rodar lembre de gerar o dataset
     public static void main(String[] args) throws Exception {
         Path datasetPath = Path.of("../datasets/sensores.csv");
 

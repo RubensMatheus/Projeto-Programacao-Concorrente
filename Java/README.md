@@ -1,6 +1,9 @@
-# Projeto IDW Concorrente — Implementação Java
+# Projeto IDW Concorrente, Implementação Java
 
-Implementação em **Java 26** do algoritmo de Interpolação por Distância Inversa Ponderada (IDW), com 10 cenários de execução cobrindo as combinações de tipo de thread (Platform/Virtual) e primitivas de sincronização (NONE, MUTEX, SEMAPHORE, VOLATILE, ATOMIC, Producer-Consumer).
+Implementação em **Java 26** do algoritmo de Interpolação por Distância Inversa Ponderada (IDW). Cobre duas etapas:
+
+- **Etapa 1** (cenários 0 a 9): combinações de tipo de thread (Platform/Virtual) e primitivas de sincronização (`NONE`, `MUTEX`, `SEMAPHORE`, `VOLATILE`, `ATOMIC`, Producer-Consumer via `BlockingQueue`) sobre `ExecutorService`.
+- **Etapa 2** (cenários 10 a 19): estratégias adicionais de concorrência: `ForkJoinPool` + `RecursiveTask`, `IntStream.parallel()`, `CompletableFuture`, `StructuredTaskScope` (JEP 505), `ScopedValue` vs `ThreadLocal` (JEP 506) e quatro abordagens em Apache Spark (RDD/CSV, DataFrame/SQL, Dataset/Parquet, UDF Haversine + `groupBy`).
 
 ## 1. Pré-requisitos
 
@@ -10,6 +13,7 @@ Implementação em **Java 26** do algoritmo de Interpolação por Distância Inv
 | **Maven** | 3.9+ | `brew install maven` |
 | **Apache JMeter** | 5.6.3 | `brew install jmeter` (necessário só para macrobenchmark) |
 | **JDK Mission Control** | 9+ | `brew install --cask jdk-mission-control` (opcional, para visualizar JFR) |
+| **Apache Spark** | 3.5+ | não é necessário instalar separadamente, as dependências vêm via Maven (`spark-core`, `spark-sql`) |
 
 Confirme as versões:
 
@@ -41,24 +45,31 @@ Imprime o valor IDW interpolado para o ponto de consulta hardcoded em `Benchmark
 
 ## 4. Microbenchmark (JMH)
 
-Mede o tempo médio do pipeline completo (IO + cálculo) para cada cenário, com fase de aquecimento explícita e múltiplos *forks* da JVM.
+Mede o tempo médio do pipeline completo (IO + cálculo) para cada cenário, com fase de aquecimento explícita e múltiplos *forks* da JVM. Cada estratégia da Etapa 2 tem um arquivo de benchmark próprio, para permitir rodar isoladamente sem re-executar a Etapa 1 inteira.
 
 ```bash
-# Compilar
+# Compilar (gera target/benchmarks.jar via maven-shade-plugin)
 mvn clean install
 
-# Rodar todos os 10 cenários
+# Etapa 1: 10 cenários (Serial + Executor + sincronizações)
 java -jar target/benchmarks.jar IDWFullProcessBenchmark
+
+# Etapa 2: benchmarks isolados
+java -jar target/benchmarks.jar IDWForkJoinBenchmark
+java -jar target/benchmarks.jar IDWParallelStreamBenchmark
+java -jar target/benchmarks.jar IDWCompletableFutureBenchmark
+java -jar target/benchmarks.jar IDWStructuredConcurrencyBenchmark
+java -jar target/benchmarks.jar IDWScopedContextBenchmark
 
 # Salvar resultados em CSV/JSON
 java -jar target/benchmarks.jar IDWFullProcessBenchmark -rf csv  -rff resultados-jmh.csv
 java -jar target/benchmarks.jar IDWFullProcessBenchmark -rf json -rff resultados-jmh.json
 
-# Rodar apenas um cenário específico
+# Rodar apenas um cenário específico da Etapa 1
 java -jar target/benchmarks.jar IDWFullProcessBenchmark -p scenario=SERIAL
 ```
 
-> A bateria completa demora cerca de 40 minutos. Os resultados de referência já estão em `benchmark-results/jmh/jmh-todos-cenarios.csv`.
+> A bateria completa da Etapa 1 demora cerca de 40 minutos. Os resultados de referência estão em `benchmark-results/jmh/` (Etapa 1) e `benchmark-results/etapa2/` (Etapa 2).
 
 ## 5. Macrobenchmark (JMeter) com os Três GCs
 
@@ -94,17 +105,22 @@ Visualize os relatórios HTML abrindo `relatorio-g1/index.html` (idem para os ou
 
 ## 6. Testes de Concorrência (JCStress)
 
-Prova formalmente as race conditions dos cenários NONE e VOLATILE, e a corretude dos cenários MUTEX, SEMAPHORE e ATOMIC.
+Prova formalmente as race conditions dos cenários NONE e VOLATILE (Etapa 1) e a corretude dos cenários MUTEX, SEMAPHORE, ATOMIC (Etapa 1) e das novas estratégias da Etapa 2 (`IDWEtapa2CorrectnessTest`).
+
+O `pom.xml` gera um uber-jar via `maven-shade-plugin` com o classifier `jcstress` (`Main-Class = org.openjdk.jcstress.Main`):
 
 ```bash
-# Todos os 5 testes (demora alguns minutos)
-mvn jcstress:run
+mvn clean install
+
+# Todos os testes
+java -jar target/Java-1.0-SNAPSHOT-jcstress.jar
 
 # Apenas um teste específico
-mvn jcstress:run -Djcstress.tests=IDWPartialSumRaceTest
+java -jar target/Java-1.0-SNAPSHOT-jcstress.jar -t IDWRaceConditionTest
+java -jar target/Java-1.0-SNAPSHOT-jcstress.jar -t IDWEtapa2CorrectnessTest
 ```
 
-O relatório HTML é salvo em `target/jcstress/index.html`. Abra no navegador para ver, por teste, quais *interleavings* foram observados e a classificação de cada um (`ACCEPTABLE`, `ACCEPTABLE_INTERESTING`, `FORBIDDEN`).
+O relatório HTML é salvo em `results/`. Abra o `index.html` no navegador para ver, por teste, quais *interleavings* foram observados e a classificação de cada um (`ACCEPTABLE`, `ACCEPTABLE_INTERESTING`, `FORBIDDEN`).
 
 ## 7. Profiling com JFR/JMC
 
@@ -117,31 +133,55 @@ jmc -open g1.jfr
 
 Ou, na interface gráfica do JMC, use `File > Open File...` e selecione o `.jfr` desejado. As abas mais relevantes são *Method Profiling*, *Garbage Collections*, *Threads* e *Lock Instances*.
 
-## 8. Estrutura do Projeto
+## 8. Macrobenchmarks Apache Spark (Etapa 2)
+
+O Spark roda como job separado (fora do JMH) e mede o tempo total de execução em quatro abordagens que isolam eixos ortogonais: API (RDD vs SQL), formato (CSV vs Parquet) e estilo de execução (`mapPartitions` sem shuffle vs UDF + `groupBy` com shuffle).
+
+Pré-passo obrigatório apenas para a abordagem com Parquet: converter o CSV uma única vez.
+
+```bash
+mvn clean install
+./run-etapa2-spark.sh              # roda as quatro abordagens em sequência
+./run-etapa2-spark-dfinfer.sh      # apenas DataFrame + CSV (SQL puro)
+./run-etapa2-spark-dfparquet-sql.sh # apenas Dataset + Parquet
+```
+
+> Os scripts definem `spark.local.dir=./artifacts`, então o Spark cria diretórios temporários `artifacts/spark-<uuid>/` durante a execução. Podem ser removidos com segurança ao final (`rm -rf artifacts/spark-*`).
+
+## 9. Estrutura do Projeto
 
 ```
 Java/
-├── pom.xml                      # Dependências e plugins (JMH, JCStress, JMeter)
+├── pom.xml                      # Dependências e plugins (JMH, JCStress, JMeter, Spark, Shade)
 ├── plano.jmx                    # Plano de teste do JMeter
+├── run-etapa2-*.sh              # Scripts auxiliares (JMH, JMeter, Spark, JCStress da Etapa 2)
 ├── src/main/java/br/ufrn/imd/
 │   ├── Main.java                # Ponto de entrada manual
-│   ├── core/                    # Implementações do algoritmo (Serial + 9 concorrentes)
+│   ├── core/                    # Impls Etapa 1 (Serial, None, Mutex, Semaphore, Volatile,
+│   │                            #   Atomic, ProducerConsumer) + Etapa 2 (ForkJoin,
+│   │                            #   ParallelStream, CompletableFuture, StructuredConcurrency,
+│   │                            #   ScopedContext)
 │   ├── config/                  # ExecutionConfig, BenchmarkConfig, enums
 │   ├── io/                      # CsvDatasetReader
 │   ├── utils/                   # ExecutorFactory (Platform vs Virtual)
 │   ├── geraDataSet/             # Gerador do CSV de 1 GB
 │   ├── model/                   # DataSet (arrays primitivos)
 │   └── benchmark/
-│       ├── JMH/                 # IDWFullProcessBenchmark
+│       ├── JMH/                 # IDWFullProcessBenchmark + benchmarks isolados da Etapa 2
 │       ├── jmeter/              # IDWJMeterSampler
-│       └── jcstress/            # IDWRaceConditionTest
-└── benchmark-results/           # Resultados de referência (já incluídos)
-    ├── jmh/
-    ├── jmeter/
-    └── jcstress/
+│       └── jcstress/            # IDWRaceConditionTest, IDWEtapa2CorrectnessTest
+├── src/main/spark-java/br/ufrn/imd/spark/
+│   ├── IDWSparkRDDImpl.java              # RDD + CSV, mapPartitions + reduce
+│   ├── IDWSparkSqlImpl.java              # DataFrame + CSV, SQL puro
+│   ├── IDWSparkDatasetParquetImpl.java   # Dataset<Sensor> + Parquet
+│   ├── IDWSparkDataFrameParquetImpl.java # DataFrame + UDF Haversine + groupBy
+│   └── CsvToParquet.java                 # Converte sensores.csv em sensores.parquet
+└── benchmark-results/
+    ├── jmh/, jmeter/, jcstress/  # Etapa 1
+    └── etapa2/                   # Etapa 2 (JMH e Spark)
 ```
 
-## 9. Solução de Problemas
+## 10. Solução de Problemas
 
 - **`mvn` não encontra o JDK 26**: verifique `JAVA_HOME` apontando para `$(brew --prefix openjdk@26)/libexec/openjdk.jdk/Contents/Home` (ou equivalente).
 - **`Dataset não encontrado`**: rode novamente o passo 2; o arquivo precisa estar em `../datasets/sensores.csv` relativo a `Java/`.

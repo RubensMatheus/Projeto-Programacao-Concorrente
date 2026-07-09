@@ -1,0 +1,29 @@
+== Physical Plan ==
+* SerializeFromObject (5)
++- MapPartitions (4)
+   +- DeserializeToObject (3)
+      +- * ColumnarToRow (2)
+         +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [3]: [latitude#25, longitude#26, valor#27]
+Batched: true
+Location: InMemoryFileIndex [file:/Users/rubensmatheus/Documents/Graduacao/Concorrente/Programacao-Concorrente-Projeto/datasets/sensores.parquet]
+ReadSchema: struct<latitude:double,longitude:double,valor:double>
+
+(2) ColumnarToRow [codegen id : 1]
+Input [3]: [latitude#25, longitude#26, valor#27]
+
+(3) DeserializeToObject
+Input [3]: [latitude#25, longitude#26, valor#27]
+Arguments: initializejavabean(newInstance(class br.ufrn.imd.spark.Sensor), (setLatitude,assertnotnull(latitude#25)), (setLongitude,assertnotnull(longitude#26)), (setValor,assertnotnull(valor#27))), obj#41: br.ufrn.imd.spark.Sensor
+
+(4) MapPartitions
+Input [1]: [obj#41]
+Arguments: org.apache.spark.sql.internal.ToScalaUDF$$$Lambda/0x000000e801f38208@418f0f27, obj#44: scala.Tuple2
+
+(5) SerializeFromObject [codegen id : 2]
+Input [1]: [obj#44]
+Arguments: [invoke(invoke(knownnotnull(assertnotnull(input[0, scala.Tuple2, true]))._1()).doubleValue()) AS _1#47, invoke(invoke(knownnotnull(assertnotnull(input[0, scala.Tuple2, true]))._2()).doubleValue()) AS _2#48]
+

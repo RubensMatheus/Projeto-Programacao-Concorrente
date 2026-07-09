@@ -1,0 +1,4 @@
+gc,approach,n,mean_s,stddev_s,min_s,median_s,max_s,mean_wall_over_exec
+g1,dataframe_csv_infer,5,7.720,0.072,7.672,7.681,7.843,0.103
+parallel,dataframe_csv_infer,5,8.614,0.228,8.404,8.532,8.937,0.107
+zgc,dataframe_csv_infer,5,27.047,2.316,24.859,25.665,30.041,0.105

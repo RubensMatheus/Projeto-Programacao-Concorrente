@@ -1,0 +1,172 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "br.ufrn.imd.benchmark.JMH.IDWCompletableFutureBenchmark.completableFuture",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 5,
+        "jvm" : "/Library/Java/JavaVirtualMachines/jdk-26.jdk/Contents/Home/bin/java",
+        "jvmArgs" : [
+            "-XX:+UseZGC",
+            "--enable-preview"
+        ],
+        "jdkVersion" : "26",
+        "vmName" : "Java HotSpot(TM) 64-Bit Server VM",
+        "vmVersion" : "26+35-2893",
+        "warmupIterations" : 5,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "variant" : "IO_VIRTUAL_CPU_PLATFORM"
+        },
+        "primaryMetric" : {
+            "score" : 5689.87702246,
+            "scoreError" : 49.09367030351714,
+            "scoreConfidence" : [
+                5640.7833521564835,
+                5738.970692763517
+            ],
+            "scorePercentiles" : {
+                "0.0" : 5579.4855415,
+                "50.0" : 5686.5653955,
+                "90.0" : 5795.2192164,
+                "95.0" : 5860.28182055,
+                "99.0" : 5871.4386455,
+                "99.9" : 5871.4386455,
+                "99.99" : 5871.4386455,
+                "99.999" : 5871.4386455,
+                "99.9999" : 5871.4386455,
+                "100.0" : 5871.4386455
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    5725.2016665,
+                    5668.958021,
+                    5739.3435,
+                    5621.257729,
+                    5647.0556665
+                ],
+                [
+                    5707.64975,
+                    5652.2476045,
+                    5702.220896,
+                    5698.2868125,
+                    5721.24025
+                ],
+                [
+                    5686.5653955,
+                    5627.2714375,
+                    5579.4855415,
+                    5658.41925,
+                    5834.249229
+                ],
+                [
+                    5716.0367295,
+                    5697.188479,
+                    5651.503958,
+                    5632.3852085,
+                    5616.3405835
+                ],
+                [
+                    5769.199208,
+                    5871.4386455,
+                    5694.6355,
+                    5667.6290415,
+                    5661.1154585
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "br.ufrn.imd.benchmark.JMH.IDWCompletableFutureBenchmark.completableFuture",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 5,
+        "jvm" : "/Library/Java/JavaVirtualMachines/jdk-26.jdk/Contents/Home/bin/java",
+        "jvmArgs" : [
+            "-XX:+UseZGC",
+            "--enable-preview"
+        ],
+        "jdkVersion" : "26",
+        "vmName" : "Java HotSpot(TM) 64-Bit Server VM",
+        "vmVersion" : "26+35-2893",
+        "warmupIterations" : 5,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "variant" : "IO_VIRTUAL_CPU_VIRTUAL"
+        },
+        "primaryMetric" : {
+            "score" : 5667.71565748,
+            "scoreError" : 31.31986969860349,
+            "scoreConfidence" : [
+                5636.395787781396,
+                5699.035527178604
+            ],
+            "scorePercentiles" : {
+                "0.0" : 5603.4008125,
+                "50.0" : 5666.0893955,
+                "90.0" : 5719.0918917,
+                "95.0" : 5786.21472275,
+                "99.0" : 5810.080229,
+                "99.9" : 5810.080229,
+                "99.99" : 5810.080229,
+                "99.999" : 5810.080229,
+                "99.9999" : 5810.080229,
+                "100.0" : 5810.080229
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    5648.5802915,
+                    5810.080229,
+                    5672.405,
+                    5639.6759165,
+                    5619.5510625
+                ],
+                [
+                    5675.379125,
+                    5700.023042,
+                    5666.0893955,
+                    5676.925625,
+                    5640.2105
+                ],
+                [
+                    5671.541479,
+                    5730.5285415,
+                    5669.2505835,
+                    5670.5815835,
+                    5684.2573335
+                ],
+                [
+                    5652.813125,
+                    5603.4008125,
+                    5640.826354,
+                    5651.7512085,
+                    5624.0953125
+                ],
+                [
+                    5698.5987705,
+                    5659.6002915,
+                    5711.4674585,
+                    5634.4612085,
+                    5640.7971875
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

@@ -5,6 +5,7 @@ import br.ufrn.imd.config.ExecutionConfig;
 import br.ufrn.imd.config.enums.SyncType;
 import br.ufrn.imd.config.enums.ThreadType;
 import br.ufrn.imd.core.*;
+import br.ufrn.imd.core.IDWScopedContextImpl.ContextMode;
 import br.ufrn.imd.io.CsvDatasetReader;
 import br.ufrn.imd.model.DataSet;
 import org.apache.jmeter.config.Arguments;
@@ -29,6 +30,11 @@ public class IDWJMeterSampler extends AbstractJavaSamplerClient {
     private IDWConcurrentBase idw;
     private IDWProducerConsumerImpl producerConsumer;
     private IDWSerialImpl serial;
+    private IDWForkJoinImpl forkJoin;
+    private IDWParallelStreamImpl parallelStream;
+    private IDWCompletableFutureImpl completableFuture;
+    private IDWStructuredConcurrencyImpl structured;
+    private IDWScopedContextImpl scoped;
     private double xq;
     private double yq;
 
@@ -58,6 +64,11 @@ public class IDWJMeterSampler extends AbstractJavaSamplerClient {
         idw = createImpl(scenario);
         producerConsumer = scenario.equals("PRODUCER_CONSUMER") ? new IDWProducerConsumerImpl() : null;
         serial = scenario.equals("SERIAL") ? new IDWSerialImpl() : null;
+        forkJoin = scenario.equals("FORKJOIN") ? new IDWForkJoinImpl() : null;
+        parallelStream = scenario.equals("PARALLELSTREAM") ? new IDWParallelStreamImpl() : null;
+        completableFuture = scenario.equals("COMPLETABLEFUTURE") ? new IDWCompletableFutureImpl() : null;
+        structured = scenario.equals("STRUCTURED") ? new IDWStructuredConcurrencyImpl() : null;
+        scoped = scenario.equals("SCOPEDCONTEXT") ? new IDWScopedContextImpl() : null;
     }
 
     /**
@@ -78,14 +89,16 @@ public class IDWJMeterSampler extends AbstractJavaSamplerClient {
 
         try {
             DataSet dataSet = reader.read(DATASET_PATH, config);
-            double computed;
-            if (scenario.equals("SERIAL")) {
-                computed = serial.executeComputation(dataSet, xq, yq);
-            } else if (scenario.equals("PRODUCER_CONSUMER")) {
-                computed = producerConsumer.execute(dataSet, xq, yq, config);
-            } else {
-                computed = idw.executeComputation(dataSet, xq, yq, config);
-            }
+            double computed = switch (scenario) {
+                case "SERIAL"            -> serial.executeComputation(dataSet, xq, yq);
+                case "PRODUCER_CONSUMER" -> producerConsumer.execute(dataSet, xq, yq, config);
+                case "FORKJOIN"          -> forkJoin.executeComputation(dataSet, xq, yq, config, 1);
+                case "PARALLELSTREAM"    -> parallelStream.executeComputation(dataSet, xq, yq, config);
+                case "COMPLETABLEFUTURE" -> completableFuture.executeComputation(dataSet, xq, yq, config);
+                case "STRUCTURED"        -> structured.executeComputation(dataSet, xq, yq, config);
+                case "SCOPEDCONTEXT"     -> scoped.executeComputation(dataSet, config, xq, yq, ContextMode.SCOPED_VALUE);
+                default                  -> idw.executeComputation(dataSet, xq, yq, config);
+            };
 
             result.sampleEnd();
             result.setSuccessful(true);
@@ -111,6 +124,11 @@ public class IDWJMeterSampler extends AbstractJavaSamplerClient {
         idw = null;
         producerConsumer = null;
         serial = null;
+        forkJoin = null;
+        parallelStream = null;
+        completableFuture = null;
+        structured = null;
+        scoped = null;
     }
 
     /**
@@ -124,7 +142,9 @@ public class IDWJMeterSampler extends AbstractJavaSamplerClient {
             case "SEMAPHORE_VIRTUAL_PLATFORM" -> new IDWSemaphoreImpl();
             case "VOLATILE_VIRTUAL_PLATFORM"  -> new IDWVolatileImpl();
             case "ATOMIC_VIRTUAL_PLATFORM"    -> new IDWAtomicImpl();
-            case "PRODUCER_CONSUMER", "SERIAL" -> null;
+            case "PRODUCER_CONSUMER", "SERIAL",
+                 "FORKJOIN", "PARALLELSTREAM", "COMPLETABLEFUTURE",
+                 "STRUCTURED", "SCOPEDCONTEXT" -> null;
             default                            -> new IDWNoneImpl();
         };
     }
@@ -150,6 +170,11 @@ public class IDWJMeterSampler extends AbstractJavaSamplerClient {
             case "VOLATILE_VIRTUAL_PLATFORM"  -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.PLATFORM, SyncType.VOLATILE);
             case "ATOMIC_VIRTUAL_PLATFORM"    -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.PLATFORM, SyncType.ATOMIC);
             case "PRODUCER_CONSUMER"          -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.PLATFORM, SyncType.NONE);
+            case "FORKJOIN"          -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.PLATFORM, SyncType.NONE);
+            case "PARALLELSTREAM"    -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.PLATFORM, SyncType.NONE);
+            case "COMPLETABLEFUTURE" -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.PLATFORM, SyncType.NONE);
+            case "STRUCTURED"        -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.PLATFORM, SyncType.NONE);
+            case "SCOPEDCONTEXT"     -> cfg(scenario, ThreadType.VIRTUAL, ThreadType.VIRTUAL,  SyncType.NONE);
             default -> throw new IllegalArgumentException("Cenário JMeter inválido: " + scenario);
         };
     }

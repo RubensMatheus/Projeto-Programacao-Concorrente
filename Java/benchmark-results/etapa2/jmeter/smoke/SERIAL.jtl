@@ -1,0 +1,2 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1783438168473,8035,SERIAL,200,OK — IDW=24.87411884680653,Thread Group 1-1,,true,,0,0,1,1,null,0,0,0

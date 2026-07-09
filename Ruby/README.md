@@ -1,6 +1,11 @@
-# Projeto IDW Concorrente — Implementação Ruby
+# Projeto IDW Concorrente, Implementação Ruby
 
-Implementação em **Ruby 3.2+** (testada com MRI 3.3.0 com YJIT habilitado) do algoritmo de Interpolação por Distância Inversa Ponderada (IDW). Cobre as mesmas 10 versões do projeto Java, mapeando *platform threads* para `Thread` e *virtual threads* para `Fiber`, dentro das limitações impostas pela GVL do MRI.
+Implementação em **Ruby 3.2+** (testada com MRI 3.3.0 com YJIT habilitado) do algoritmo de Interpolação por Distância Inversa Ponderada (IDW). Mapeia *platform threads* para `Thread` e *virtual threads* para `Fiber`, dentro das limitações impostas pela GVL do MRI.
+
+Cobre duas etapas:
+
+- **Etapa 1** (10 cenários): equivalente ao projeto Java, `SERIAL`, quatro variantes de `NONE`, `MUTEX`, `SEMAPHORE`, `VOLATILE`, `ATOMIC` e `PRODUCER_CONSUMER`.
+- **Etapa 2** (3 cenários): estratégias adicionais de concorrência: **Ractors com particionamento estático** (`partitioned_ractor.rb`, análogo ao ForkJoin em Java, único cenário com paralelismo real de CPU em MRI), **pipeline assíncrono composicional** com `Concurrent::Promises` (`promises.rb`, análogo a `CompletableFuture`) e **concorrência estruturada** com a gem `async` (`async_scope.rb`, análogo a `StructuredTaskScope`). Ausências propositais (Parallel Streams, ScopedValue vs ThreadLocal, Apache Spark) estão justificadas no relatório.
 
 ## 1. Pré-requisitos
 
@@ -24,7 +29,7 @@ A partir da pasta `Ruby/`:
 bundle install
 ```
 
-Isso instala as gems do `Gemfile`: `async`, `concurrent-ruby`, `benchmark-ips` e `stackprof` (para profiling).
+Isso instala as gems do `Gemfile`: `async` (concorrência estruturada da Etapa 2), `concurrent-ruby` (Promises da Etapa 2 e primitivas usadas na Etapa 1), `benchmark-ips` e `stackprof` (para profiling). Ractors são parte do MRI, sem gem adicional.
 
 ## 3. Pré-requisito: Gerar o Dataset
 
@@ -64,13 +69,41 @@ Roda apenas as duas versões (Serial e Mutex) com tempo *wall-clock*. Mais rápi
 
 ## 7. Microbenchmark Completo (benchmark-ips)
 
-Bateria com todos os 10 cenários, com fase de aquecimento explícita (30 s) e janela de medição longa (60 s) para acomodar o YJIT.
+Bateria com todos os 10 cenários da Etapa 1, com fase de aquecimento explícita (30 s) e janela de medição longa (60 s) para acomodar o YJIT.
 
 ```bash
 bundle exec ruby bench/full_process_bench.rb
 ```
 
 A execução demora aproximadamente 15 minutos. A saída de referência está em `bench/last_full_process.log` (gerada na última bateria).
+
+## 7.1. Benchmarks da Etapa 2
+
+Cada estratégia da Etapa 2 tem seu próprio script isolado, para não misturar com a Etapa 1:
+
+```bash
+# Ractors com particionamento estático (paralelismo real de CPU)
+bundle exec ruby bench/partitioned_ractor_bench.rb
+
+# Trade-off de IO: leitura no coordenador (Fibers) vs redundante nos Ractors
+bundle exec ruby bench/ractor_io_tradeoff.rb
+
+# Concurrent::Promises (pipeline assíncrono composicional)
+bundle exec ruby bench/promises_bench.rb
+
+# gem async (concorrência estruturada)
+bundle exec ruby bench/async_scope_bench.rb
+
+# Rodar um único cenário da Etapa 2 pontualmente
+SCENARIO=PARTITIONED_RACTOR bundle exec ruby bench/single_run_etapa2.rb
+SCENARIO=PROMISES           bundle exec ruby bench/single_run_etapa2.rb
+SCENARIO=ASYNC_SCOPE        bundle exec ruby bench/single_run_etapa2.rb
+
+# Bateria smoke rápida da Etapa 2 (sanidade)
+bundle exec ruby bench/smoke_etapa2.rb
+```
+
+Os resultados de referência da Etapa 2 estão em `bench/results-etapa2/`.
 
 ## 8. Profiling com stackprof
 
@@ -109,14 +142,25 @@ Ruby/
 │       ├── none.rb              # Sem sincronização
 │       ├── mutex.rb             # Mutex#synchronize
 │       ├── semaphore.rb         # Concurrent::Semaphore
-│       ├── volatile.rb          # (cópia funcional de None — sem volatile no MRI)
+│       ├── volatile.rb          # (cópia funcional de None, sem volatile no MRI)
 │       ├── atomic.rb            # Redução local + soma final
-│       └── producer_consumer.rb # SizedQueue
+│       ├── producer_consumer.rb # SizedQueue
+│       ├── etapa2_kernel.rb     # Kernel puro compartilhado pelas impls da Etapa 2
+│       ├── partitioned_ractor.rb # Etapa 2: Ractors + particionamento estático
+│       ├── promises.rb          # Etapa 2: Concurrent::Promises
+│       └── async_scope.rb       # Etapa 2: gem async (concorrência estruturada)
 └── bench/
-    ├── full_process_bench.rb    # Bateria completa (benchmark-ips)
-    ├── single_run.rb            # Roda um único cenário
+    ├── full_process_bench.rb    # Bateria Etapa 1 (benchmark-ips)
+    ├── single_run.rb            # Roda um único cenário da Etapa 1
     ├── serial_mutex_run.rb      # SERIAL + MUTEX em wall-clock
-    ├── last_full_process.log    # Saída de referência
+    ├── single_run_etapa2.rb     # Roda um único cenário da Etapa 2
+    ├── smoke_etapa2.rb          # Sanidade rápida dos 3 cenários da Etapa 2
+    ├── partitioned_ractor_bench.rb
+    ├── ractor_io_tradeoff.rb
+    ├── promises_bench.rb
+    ├── async_scope_bench.rb
+    ├── last_full_process.log    # Saída de referência (Etapa 1)
+    ├── results-etapa2/          # Resultados de referência (Etapa 2)
     └── profiles/                # Flamegraphs do stackprof
 ```
 

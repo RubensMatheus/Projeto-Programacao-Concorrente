@@ -12,6 +12,9 @@
         <configuration>
           <source>26</source>
           <target>26</target>
+          <compilerArgs>
+            <arg>--enable-preview</arg>
+          </compilerArgs>
           <annotationProcessorPaths>
             <path>
               <groupId>org.openjdk.jmh</groupId>
@@ -95,11 +98,78 @@
           <jvmArgs>
             <jvmArg>-Xmx12g</jvmArg>
             <jvmArg>-XX:+UseG1GC</jvmArg>
+            <jvmArg>--enable-preview</jvmArg>
           </jvmArgs>
         </configuration>
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>spark</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.5.0</version>
+            <executions>
+              <execution>
+                <id>add-spark-source</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>src/main/spark-java</source>
+                  </sources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <source>21</source>
+              <target>21</target>
+              <compilerArgs />
+              <includes>
+                <include>br/ufrn/imd/spark/**/*.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <configuration>
+              <mainClass>${spark.mainClass}</mainClass>
+              <jvmArgs>
+                <jvmArg>-Xmx12g</jvmArg>
+                <jvmArg>-XX:+${spark.gcFlag}</jvmArg>
+              </jvmArgs>
+              <environmentVariables>
+                <SPARK_USER>spark</SPARK_USER>
+                <HADOOP_USER_NAME>spark</HADOOP_USER_NAME>
+              </environmentVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.spark</groupId>
+          <artifactId>spark-core_2.13</artifactId>
+          <version>4.0.0</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.spark</groupId>
+          <artifactId>spark-sql_2.13</artifactId>
+          <version>4.0.0</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
@@ -115,10 +185,12 @@
     </dependency>
   </dependencies>
   <properties>
+    <spark.mainClass>br.ufrn.imd.spark.SparkHelloWorld</spark.mainClass>
     <jmh.version>1.37</jmh.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>26</maven.compiler.target>
-    <jcstress.version>0.16</jcstress.version>
+    <spark.gcFlag>UseG1GC</spark.gcFlag>
     <maven.compiler.source>26</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jcstress.version>0.16</jcstress.version>
   </properties>
 </project>

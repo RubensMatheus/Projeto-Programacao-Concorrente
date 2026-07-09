@@ -1,0 +1,873 @@
+
+<html>
+<head>
+<title>Java Concurrency Stress test report</title>
+ <style type="text/css">
+   * { font-family: Arial; }
+   table { font-size: 9pt; }
+   a { color: #000000; }
+   .progress { padding: 0px; }
+   .header { text-align: left; }
+   .section1 { font-size: 12pt; background-color: #BDB76B; color: #000000; font-weight: bold;}
+   .section2 { font-size: 12pt; background-color: #F0E68C; color: #000000; font-weight: bold;}
+   .cell1 { background-color: #FAFAD2; }
+   .cell2 { background-color: #EEE8AA; }
+   .passedProgress { background-color: #00AA00; color: #FFFFFF; text-align: center; font-weight: bold; }
+   .failedProgress { background-color: #FF0000; color: #FFFFFF; text-align: center; font-weight: bold; }
+   .passed { color: #00AA00; text-align: center; font-weight: bold; }
+   .failed { color: #FF0000; text-align: center; font-weight: bold; }
+   .interesting { color: #0000FF; text-align: center; font-weight: bold; }
+   .spec { color: #AAAA00; text-align: center; font-weight: bold; }
+   .endResult { font-size: 48pt; text-align: center; font-weight: bold; }
+ </style>
+</head>
+<body>
+<h1>br.ufrn.imd.benchmark.jcstress.IDWRaceConditionTest.IDWVolatilePartialSumTest</h1>
+<h3>Description and references</h3>
+<p>VOLATILE: visibilidade sem atomicidade — race persiste em += compartilhado.</p>
+<h3>Environment</h3>
+<table>
+<tr>
+<td nowrap>java.specification.name</td>
+<td nowrap>Java Platform API Specification</td>
+</tr>
+<tr>
+<td nowrap>java.specification.vendor</td>
+<td nowrap>Oracle Corporation</td>
+</tr>
+<tr>
+<td nowrap>java.specification.version</td>
+<td nowrap>26</td>
+</tr>
+<tr>
+<td nowrap>java.vendor</td>
+<td nowrap>Oracle Corporation</td>
+</tr>
+<tr>
+<td nowrap>java.version</td>
+<td nowrap>26</td>
+</tr>
+<tr>
+<td nowrap>java.vm.name</td>
+<td nowrap>Java HotSpot(TM) 64-Bit Server VM</td>
+</tr>
+<tr>
+<td nowrap>java.vm.vendor</td>
+<td nowrap>Oracle Corporation</td>
+</tr>
+<tr>
+<td nowrap>java.vm.version</td>
+<td nowrap>26+35-2893</td>
+</tr>
+<tr>
+<td nowrap>os.arch</td>
+<td nowrap>aarch64</td>
+</tr>
+<tr>
+<td nowrap>os.name</td>
+<td nowrap>Mac OS X</td>
+</tr>
+<tr>
+<td nowrap>os.version</td>
+<td nowrap>26.5.1</td>
+</tr>
+</table>
+<h3>Results</h3>
+<table cellpadding=5 border=1>
+<tr>
+<th>Compilation Mode</th>
+<th>Scheduling Class</th>
+<th>Java Options</th>
+<th>Status</th>
+<th colspan=9>Observed States</th>
+</tr>
+<tr>
+<th colspan=4></th>
+<th nowrap align='center'>1100, 30</th>
+<th nowrap align='center'>1100, 50</th>
+<th nowrap align='center'>1100, 80</th>
+<th nowrap align='center'>500, 30</th>
+<th nowrap align='center'>500, 50</th>
+<th nowrap align='center'>500, 80</th>
+<th nowrap align='center'>600, 30</th>
+<th nowrap align='center'>600, 50</th>
+<th nowrap align='center'>600, 80</th>
+</tr>
+<tr>
+<td colspan=4></td>
+<td>Interesting</td>
+<td>Interesting</td>
+<td>Acceptable</td>
+<td>Interesting</td>
+<td>Interesting</td>
+<td>Interesting</td>
+<td>Interesting</td>
+<td>Interesting</td>
+<td>Interesting</td>
+</tr>
+<tr>
+<td colspan=4></td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+<td>Visível: ambas as contribuições foram aplicadas (sem interleaving destrutivo neste run).</td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+<td>RACE CONDITION: volatile garante visibilidade mas NÃO atomicidade do +=.</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2639</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2492</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>32476689</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>492</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>234</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>33277</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>395</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>584</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>34129</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>139940</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>747</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>74388578</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>11253</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>380</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>65922</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>197</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>201</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>122273</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>43279</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>301</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>32276310</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>3411</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>553</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>92618</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>31</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>85</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>52423</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1095814864]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>70252</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>503</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>54082865</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>8387</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>554</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>105929</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>95</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>220</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>83086</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1730564628]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>100054</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>699</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>67862961</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>11164</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1747</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>156654</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>77</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>293</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>93442</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=2058141630]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>79184</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>563</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>57592474</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>9987</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>570</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>118957</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>80</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>215</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>82661</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=688973734]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>104438</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>559</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>64860266</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>7230</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>844</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>154423</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>69</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>242</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>88460</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: Interpreter
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=939936275]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>171921</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>679</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>94116550</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>9779</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>897</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>200429</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>139</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>355</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>114822</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>451</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>121841</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>67129059</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>218</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>202</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>112499</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>380</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>10527</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>73674</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>6250</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>8579</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>112798312</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1080</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1502</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>12656</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1447</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1421</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>11524</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1325</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2044</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>100455510</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>181</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>345</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>5815</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>624</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>233</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>6774</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1193889043]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2064</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>944</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>159327009</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>229</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>140</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>3891</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>440</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>76</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>7818</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1547385084]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2979</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2596</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>89893949</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>464</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>285</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>6962</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>466</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>251</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>7459</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1599446237]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1513</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>892</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>56975861</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>120</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>181</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>3477</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2013</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>93</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>19901</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=2111726088]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>469</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>756</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>86324201</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>50</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>146</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2271</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>256</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>94</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>3168</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C1
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=623641412]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2301</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>648</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>176734558</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>175</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>128</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>3443</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>417</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>58</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>8883</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>560</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>67916</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>57922537</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>195</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>84</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>82948</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>608</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>9900</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>117383</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=113006613]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>446</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>71498</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>47513571</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>263</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>36</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>71733</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>730</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>6321</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>113213</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1211559288]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>474</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>91389</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>63183210</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>352</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>54</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>87893</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1012</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>11588</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>150959</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=16010222]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>410</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>104795</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>61226722</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>392</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>52</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>77300</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1224</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>8637</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>161799</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1994996229]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>615</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>138157</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>78764527</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>395</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>62</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>96912</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1063</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>9496</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>213624</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: Interpreter
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=744916858]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>305</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>80241</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>51101940</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>219</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>97</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>71816</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>712</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>5974</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>120987</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>993</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2054</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>106406325</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>93</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>878</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>11908</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>650</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>170</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>9460</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1018831094]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1495</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1607</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>76443755</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>202</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>668</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>7404</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>283</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>115</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>4522</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1484867751]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>824</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1561</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>68432481</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>91</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>975</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>10854</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>381</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>105</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>5099</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1907889380]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>267</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>460</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>71049554</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>38</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>55</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1314</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>61</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>32</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1550</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1907964771]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1212</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1070</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>59950760</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>134</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>754</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>7030</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>932</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>113</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>11646</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C1
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=40539504]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>381</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>556</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>26458579</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>46</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>497</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>5251</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>178</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>41</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2842</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1026</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1560</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>118364184</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>70</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1393</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>13453</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>922</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>62</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>10181</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1127033611]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1274</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1420</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>103788281</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>77</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>576</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>8356</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1891</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>80</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>19376</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1371672003]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>159</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>204</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>11790752</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>19</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>18</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>926</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>149</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>17</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2207</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=1681044874]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>710</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>787</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>124137466</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>34</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>613</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>7574</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>2931</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>32</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>28304</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=558314726]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>724</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>563</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>35079978</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>24</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1511</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>15364</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>5443</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>16</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>48268</td>
+</tr>
+<tr>
+<td nowrap valign=top width=10><pre>split
+    threadA: C2
+    threadB: C2
+</pre></td>
+<td nowrap valign=top width=10><pre>    threadA: package group free, core group free
+    threadB: package group free, core group free
+</pre></td>
+<td        valign=top width=10>
+<pre>[--enable-preview, -XX:+StressLCM, -XX:+StressGCM, -XX:+StressIGVN, -XX:+StressCCP, -XX:StressSeed=985961176]</pre>
+</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1913</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>1943</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ff00>106394955</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>163</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>143</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>6126</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>159</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>117</td>
+<td align='right' width='11.11111111111111%' bgColor=#00ffff>6532</td>
+</tr>
+</table>
+<h3>Messages</h3>
+<h3>VM Output Streams</h3>
+<h3>VM Error Streams</h3>
+</body>
+</html>
